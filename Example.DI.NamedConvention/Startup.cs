@@ -22,10 +22,20 @@ namespace Example.DI.NamedConvention
     {
       foreach (var type in Assembly.GetEntryAssembly().GetTypes().Where(t => t.IsClass && t.IsAssignableTo(typeof(IService))))
       {
-        services.AddScoped(typeof(IService), type);
+        //services.AddScoped(typeof(IService), type);
+        services.AddScoped(type);
       }
-      services.AddScoped<IServiceResolver>(sp => serviceName => sp.GetServices<IService>().Single(s => s.Name == serviceName));
-      
+
+      services.AddScoped<IServiceResolver>(sp => serviceName =>
+      {
+        var serviceType = services.Single(s =>
+                s.ServiceType.IsAssignableTo(typeof(IService))
+                && s.ImplementationType.GetCustomAttribute<AttributeServiceName>().ServiceName == serviceName);
+
+        //var serviceType = services.First(s => s.ServiceType.Name == serviceName);
+        return (IService)sp.GetRequiredService(serviceType.ImplementationType);
+      });
+
       services.AddControllers();
     }
 
