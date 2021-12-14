@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Example.DI.NamedConvention.Services
 {
-  public interface IService
-  {   
-    string MyNameIs();
+  public interface IDummyService
+  {
+    string DoSomething();
   }
 }

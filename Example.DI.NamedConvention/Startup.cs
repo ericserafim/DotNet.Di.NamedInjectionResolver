@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
-using System.Reflection;
 
 namespace Example.DI.NamedConvention
 {
@@ -20,22 +18,9 @@ namespace Example.DI.NamedConvention
     
     public void ConfigureServices(IServiceCollection services)
     {
-      foreach (var type in Assembly.GetEntryAssembly().GetTypes().Where(t => t.IsClass && t.IsAssignableTo(typeof(IService))))
-      {
-        //services.AddScoped(typeof(IService), type);
-        services.AddScoped(type);
-      }
-
-      services.AddScoped<IServiceResolver>(sp => serviceName =>
-      {
-        var serviceType = services.Single(s =>
-                s.ServiceType.IsAssignableTo(typeof(IService))
-                && s.ImplementationType.GetCustomAttribute<AttributeServiceName>().ServiceName == serviceName);
-
-        //var serviceType = services.First(s => s.ServiceType.Name == serviceName);
-        return (IService)sp.GetRequiredService(serviceType.ImplementationType);
-      });
-
+      services.AddServicesByName<IService, string>(constantName: "Name");
+      services.AddServicesByName<IDummyService, int>(constantName: "ServiceName");
+      services.AddServicesByName<FakeServiceX, string>(constantName: "Service");
       services.AddControllers();
     }
 
