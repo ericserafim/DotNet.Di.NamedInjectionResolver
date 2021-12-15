@@ -11,20 +11,22 @@ namespace Example.DI.NamedConvention.Controllers
     private readonly IServiceResolver<IDummyService> _dummyServiceResolver;
     private readonly IServiceResolver<FakeServiceX> _fakeServiceResolver;
 
-    public WeatherForecastController(
-      IServiceResolver<IService> serviceResolver, 
-      IServiceResolver<IDummyService> serviceDummyResolver,
-      IServiceResolver<FakeServiceX> fakeServiceResolver)
+    public WeatherForecastController(IServiceResolver<IService> serviceResolver,
+      IServiceResolver<IDummyService> serviceDummyResolver
+      //IServiceResolver<FakeServiceX> fakeServiceResolver
+      )
     {
       _serviceResolver = serviceResolver;
       _dummyServiceResolver = serviceDummyResolver;
-      _fakeServiceResolver = fakeServiceResolver;
+      //_fakeServiceResolver = fakeServiceResolver;
     }
 
     [HttpGet]
-    public string Get(string serviceName, int serviceDummyName, string fakeServiceName)
+    public string Get(string serviceName, string serviceDummyName, string fakeServiceName)
     {
-      return $"{_serviceResolver(serviceName).MyNameIs()}\n{_dummyServiceResolver(serviceDummyName).DoSomething()}\n{_fakeServiceResolver(fakeServiceName).Do()}";
+      return $"{_serviceResolver(serviceName).MyNameIs()}\n{_dummyServiceResolver(serviceDummyName).DoSomething()}";
+
+      //return $"{_serviceResolver(serviceName).MyNameIs()}\n{_dummyServiceResolver(serviceDummyName).DoSomething()}\n{_fakeServiceResolver(fakeServiceName).Do()}";
     }
   }
 }

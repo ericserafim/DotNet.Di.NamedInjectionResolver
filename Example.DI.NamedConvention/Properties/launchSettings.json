@@ -13,7 +13,7 @@
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast?ServiceName=ServiceA&serviceDummyName=1&fakeServiceName=FakeServiceX",
+      "launchUrl": "weatherforecast?ServiceName=ServiceA&serviceDummyName=ServiceB",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
